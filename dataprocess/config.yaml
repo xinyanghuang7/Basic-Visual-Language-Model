@@ -1,0 +1,8 @@
+ali_image_path: "/home/liufh/project/data2/liu_project/huggingface_dataset/ai_challenger_caption_train_20170902/caption_train_images_20170902/"
+ali_image_path_label_file: "/home/liufh/project/data2/liu_project/huggingface_dataset/ai_challenger_caption_train_20170902/caption_train_annotations_20170902.json"
+
+coco_image_path: "/home/liufh/project/data2/liu_project/huggingface_dataset/train2017/train2017/"
+coco_image_path_label_file: "/home/liufh/project/data2/liu_project/huggingface_dataset/train2017/complex_reasoning_77k.json"
+
+output_image_map: "../data/image_map_b.json"
+output_captions: "../data/captions_b.json"
