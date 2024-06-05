@@ -33,9 +33,9 @@ pip install -r requirements.txt
 
 下载相关数据：
 
-| AIC | COCO |
-| --- | --- |
-| [AI Challenger](https://tianchi.aliyun.com/dataset/145781) | [COCO 2017](http://images.cocodataset.org/zips/train2017.zip) |
+| AIC | COCO | complex_reasoning_77k.json |
+| --- | --- | --- |
+| [AI Challenger](https://tianchi.aliyun.com/dataset/145781) | [COCO 2017](http://images.cocodataset.org/zips/train2017.zip) | [complex_reasoning_77k.json](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K/resolve/main/complex_reasoning_77k.json) |
 
 ### 数据预处理
 
