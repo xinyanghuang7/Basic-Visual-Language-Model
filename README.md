@@ -54,3 +54,5 @@ By following the above steps, you can start the training process and train the m
 Thanks to their work:
 
 https://github.com/WatchTower-Liu/VLM-learning/tree/main
+
+https://github.com/QwenLM/Qwen
