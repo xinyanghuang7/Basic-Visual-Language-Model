@@ -8,13 +8,12 @@ from transformers.trainer import (
     logger,
 )
 import os
-import json
 from peft import get_peft_model_state_dict
 
 class MultiModalTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
         return model(
-            image = inputs["images"],
+            image=inputs["images"],
             input_ids=inputs["input_ids"],
             labels=inputs["labels"],
         ).loss
@@ -24,24 +23,20 @@ class MultiModalTrainer(Trainer):
         print(output_dir)
         os.makedirs(output_dir, exist_ok=True)
         torch.save(self.args, os.path.join(output_dir, TRAINING_ARGS_NAME))
-        # vision_params = self.model.visualModel.state_dict()
-        # torch.save(vision_params, os.path.join(output_dir, "vision_model.bin"))
-        saved_params_LLM = get_peft_model_state_dict(self.model.LLM)
+        
+        # Access the original model
+        model = self.model.module if hasattr(self.model, 'module') else self.model
+        
+        saved_params_LLM = get_peft_model_state_dict(model.LLM)
         torch.save(saved_params_LLM, os.path.join(output_dir, "adapter_model.bin"))
-        saved_params_other = self.model.feature_proj.state_dict()
+        saved_params_other = model.feature_proj.state_dict()
         torch.save(saved_params_other, os.path.join(output_dir, "other_params.bin"))
-        config = self.model.LLM.peft_config
+        config = model.LLM.peft_config
         selected_adapters = list(config.keys())
         print(selected_adapters)
         config[selected_adapters[0]].save_pretrained(output_dir, auto_mapping_dict=None)
 
     def create_optimizer(self):
-        """
-        Setup the optimizer.
-
-        We provide a reasonable default that works well. If you want to use something else, you can pass a tuple in the
-        Trainer's init through `optimizers`, or subclass and override this method in a subclass.
-        """
         if is_sagemaker_mp_enabled():
             return super().create_optimizer()
 
@@ -102,9 +97,12 @@ class MultiModalTrainer(Trainer):
 
         return self.optimizer
 
-
-def main():
-    pass
-
-if __name__ == "__main__":
-    main()
+    def create_optimizer_and_scheduler(self, num_training_steps: int):
+        super().create_optimizer_and_scheduler(num_training_steps)
+        if self.args.local_rank != -1:
+            self.model = torch.nn.parallel.DistributedDataParallel(
+                self.model,
+                device_ids=[self.args.local_rank],
+                output_device=self.args.local_rank,
+                find_unused_parameters=True  # Add this line
+            )

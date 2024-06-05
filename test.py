@@ -1,3 +1,4 @@
+import argparse
 import torch
 from transformers import AutoTokenizer, ChineseCLIPProcessor
 from torchvision import transforms
@@ -19,27 +20,22 @@ def image_process(image):
 
     return tran(image)
 
-def main():
-    base_language_model = "F:/huggingface_model/qwen/Qwen-7B-chat/"
-    base_value_model = "F:/huggingface_model/clip-vit-large-patch14"
-
-    tokenizer = AutoTokenizer.from_pretrained(base_language_model, trust_remote_code=True)
+def main(args):
+    tokenizer = AutoTokenizer.from_pretrained(args.base_language_model, trust_remote_code=True)
     replace_token_id = tokenizer.convert_tokens_to_ids("<|extra_0|>")
     
-    model = MMultiModal(LanguageConfig(model_path=base_language_model), VisualConfig(model_path=base_value_model), 
-                        MultiModalConfig(replace_token_id=replace_token_id),train=False).cuda()
-    model.load("./weights/train_V1_5/checkpoint-27000/")
+    model = MMultiModal(LanguageConfig(model_path=args.base_language_model), 
+                        VisualConfig(model_path=args.base_value_model), 
+                        MultiModalConfig(replace_token_id=replace_token_id), 
+                        train=False).cuda()
+    model.load(args.model_weights)
 
-    prompt = "使用语言描述一下图中出现了那些颜色<|extra_0|>"
+    prompt = args.prompt
 
-
-    image = Image.open("./data/fb221fa2fe34da45f489a81aa8e94f16.jpeg")
+    image = Image.open(args.image_path)
     image = image.convert("RGB")
-    # image_processer = ChineseCLIPProcessor.from_pretrained(VModelConfig.model_path)
-    # image_pt = image_processer(images = image, return_tensors = "pt").pixel_values.cuda().to(torch.bfloat16)
     image_pt = image_process(image).unsqueeze(0).cuda().to(torch.bfloat16)
     messages = [{"role": "system", "content": "你是一位图像理解助手。"}, {"role": "user", "content": "用中文回答："+prompt}]
-    # raw_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     raw_text, context_tokens = make_context(
             tokenizer,
             "用中文回答："+prompt,
@@ -54,5 +50,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Image and Text Processing with MultiModal Model")
+    parser.add_argument("--base_language_model", type=str, required=True, help="Path to the base language model")
+    parser.add_argument("--base_value_model", type=str, required=True, help="Path to the base value model")
+    parser.add_argument("--model_weights", type=str, required=True, help="Path to the model weights")
+    parser.add_argument("--image_path", type=str, required=True, help="Path to the input image")
+    parser.add_argument("--prompt", type=str, required=True, help="Prompt for the model")
 
+    args = parser.parse_args()
+    main(args)

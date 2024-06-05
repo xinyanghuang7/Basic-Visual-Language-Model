@@ -127,16 +127,3 @@ class MMultiModal(nn.Module):
         out = self.LLM.generate(inputs = input_ids, images=image_feature)[:, len(input_ids[0]):-1]
 
         return out.long().cpu()
-
-def main():
-    test_image = torch.rand([1, 3, 224, 224]).cuda().to(torch.bfloat16)
-    test_input_ids = torch.randint(1, 10000, [1, 20]).cuda()
-
-    MMM = MMultiModal(LanguageConfig(model_path="F:/huggingface_model/qwen/Qwen-1_8B/"), VisualConfig(), MultiModalConfig()).cuda()
-
-    out = MMM(test_image, test_input_ids)
-    print(out.logits)
-
-
-if __name__ == "__main__":
-    main()
