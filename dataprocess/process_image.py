@@ -22,7 +22,7 @@ def process(caption_data, image_path, start_ID=0):
             # If caption is a list, randomly select one caption from the list
             selected_caption = np.random.choice(caption)
             if np.random.random() > 0.5:
-                captions[idx + start_ID] = {"q": "这副图像描述了什么？<|extra_0|>", "a": selected_caption}
+                captions[idx + start_ID] = {"q": "这幅图像描述了什么？<|extra_0|>", "a": selected_caption}
             else:
                 captions[idx + start_ID] = {"q": "<|extra_0|>这幅图像中有什么？", "a": selected_caption}
         else:
@@ -34,7 +34,7 @@ def process(caption_data, image_path, start_ID=0):
                 captions[idx + start_ID] = {"q": question, "a": [answer]}
             else:
                 if np.random.random() > 0.5:
-                    captions[idx + start_ID] = {"q": "这副图像描述了什么？<|extra_0|>", "a": caption}
+                    captions[idx + start_ID] = {"q": "这幅图像描述了什么？<|extra_0|>", "a": caption}
                 else:
                     captions[idx + start_ID] = {"q": "<|extra_0|>这幅图像中有什么？", "a": caption}
         
