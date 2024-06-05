@@ -2,8 +2,6 @@
 
 For the Chinese version of this README, please refer to [中文文档](README_zh.md).
 
-这是一个视觉多模态大模型构建以及训练的笔记，用于学习以及理解多模态大模型。
-
 ## Code Explanation
 
 - **LLM**: Utilizes Qwen-7B as the main body. The related code is in the `qwen` folder. The `forward` method of `QWenModel` is overridden to inject multimodal features.
