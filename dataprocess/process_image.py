@@ -46,20 +46,24 @@ def main():
     config = yaml.load(open("config.yaml", 'r', encoding="utf-8"), Loader=yaml.FullLoader)
     
     caption_data_ali = read_json(config["ali_image_path_label_file"])
-    caption_data_chat = read_json(config["coco_image_path_label_file"])
+    caption_data_chat1 = read_json(config["coco_image_path_label_file1"])
+    caption_data_chat2 = read_json(config["coco_image_path_label_file2"])
     
     print("First few elements of caption_data_ali:")
     for i in range(min(5, len(caption_data_ali))):
         print(caption_data_ali[i])
     
-    image_map_ali, captions_ali = process(caption_data_ali[:50000], config["ali_image_path"])
+    image_map_ali, captions_ali = process(caption_data_ali, config["ali_image_path"])
     print(f"Processed {len(image_map_ali)} images from ali dataset.")
     
-    image_map_chat, captions_chat = process(caption_data_chat, config["coco_image_path"], len(image_map_ali))
-    print(f"Processed {len(image_map_chat)} images from coco dataset.")
+    image_map_chat1, captions_chat1 = process(caption_data_chat1, config["coco_image_path"], len(image_map_ali))
+    print(f"Processed {len(image_map_chat1)} images from coco dataset file 1.")
     
-    image_map = {**image_map_ali, **image_map_chat}
-    captions = {**captions_ali, **captions_chat}
+    image_map_chat2, captions_chat2 = process(caption_data_chat2, config["coco_image_path"], len(image_map_ali) + len(image_map_chat1))
+    print(f"Processed {len(image_map_chat2)} images from coco dataset file 2.")
+    
+    image_map = {**image_map_ali, **image_map_chat1, **image_map_chat2}
+    captions = {**captions_ali, **captions_chat1, **captions_chat2}
     
     print(f"Total images processed: {len(image_map)}")
     
