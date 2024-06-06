@@ -2,7 +2,7 @@ import torch
 import json
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
-from transformers import CLIPProcessor
+from transformers import CLIPProcessor, SiglipProcessor
 from PIL import Image
 import numpy as np
 from tqdm import tqdm
@@ -53,7 +53,9 @@ class ImageCaptionDataset(Dataset):
         self.image_map = readJson(image_map_file)
         self.captions = readJson(captions_file)
 
-        self.image_processor = CLIPProcessor.from_pretrained(Vconfig.model_path)
+        # self.image_processor = CLIPProcessor.from_pretrained(Vconfig.model_path)
+        
+        self.image_processor = SiglipProcessor.from_pretrained(Vconfig.model_path)
 
         self.readImage()  # 一次性读入内存
 

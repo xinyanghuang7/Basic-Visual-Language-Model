@@ -10,7 +10,7 @@ from model.model import MMultiModal, LanguageConfig, VisualConfig, MultiModalCon
 from dataset.image_caption_dataset import ImageCaptionDataset, data_collate
 
 import transformers
-from transformers import HfArgumentParser, AutoTokenizer, ChineseCLIPProcessor
+from transformers import HfArgumentParser, AutoTokenizer
 from dataclasses import dataclass, field
 
 from qwen.modeling_qwen import QWenLMHeadModel
@@ -39,7 +39,8 @@ def train():
     ).parse_args_into_dataclasses()
 
     base_language_model = "Qwen/Qwen-7B-Chat"
-    base_value_model = "openai/clip-vit-large-patch14"
+    # base_value_model = "openai/clip-vit-large-patch14"
+    base_value_model = "google/siglip-so400m-patch14-384"
 
     tokenizer = AutoTokenizer.from_pretrained(base_language_model, trust_remote_code=True)
     replace_token_id = tokenizer.convert_tokens_to_ids("<|extra_0|>")

@@ -9,10 +9,9 @@ from transformers import CLIPProcessor
 from dataclasses import dataclass, asdict
 from peft import get_peft_model, LoraConfig, TaskType, PeftModel
 
-from visual.CLIP_VIT import visualModel
-# from visual.visual_transformer import Mvit_b_16
+# from visual.CLIP_VIT import visualModel
+from visual.SIGLIP_VIT import visualModel
 from qwen.Mqwen import MQWenLMHeadModel
-# from qwen.modeling_qwen import QWenLMHeadModel
 
 
 @dataclass
@@ -30,7 +29,8 @@ class VisualConfig():
 @dataclass
 class MultiModalConfig():
     replace_token_id: int
-    image_context_length: int = 256
+    # image_context_length: int = 256
+    image_context_length: int = 728
     image_feature_hidden_size: int = 4096
     
 
@@ -74,6 +74,10 @@ class MMultiModal(nn.Module):
         self.make_feature_proj(Vhidden_dim, Lhidden_dim, Lconfig)
 
         self.MMconfig = MMconfig
+        
+        print(f"LLM dtype: {self.LLM.dtype}")
+        print(f"Visual model dtype: {self.visualModel.dtype}")
+        print(f"Feature projection dtype: {self.feature_proj[0].weight.dtype}")
 
     def make_feature_proj(self, Vhidden_dim, Lhidden_dim, Lconfig):
         self.feature_proj = nn.Sequential(
@@ -89,7 +93,9 @@ class MMultiModal(nn.Module):
 
     def forward(self, image: torch.Tensor, input_ids: torch.LongTensor, labels: Optional[torch.LongTensor] = None):
         with torch.no_grad():
-            image_feature=self.visualModel.get_image_features(pixel_values=image)[:,1:, :]
+            # 确保 image 的数据类型为 bfloat16
+            image = image.to(dtype=torch.bfloat16)
+            image_feature = self.visualModel.get_image_features(pixel_values=image)[:,1:, :]
             image_feature = image_feature.detach()
 
         image_feature = self.feature_proj(image_feature)

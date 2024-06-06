@@ -20,20 +20,31 @@ class MultiModalTrainer(Trainer):
 
     def save_model(self, output_dir=None, _internal_call=False):
         from transformers.trainer import TRAINING_ARGS_NAME
-        print(output_dir)
+        
+        # Ensure output_dir is not None
+        if output_dir is None:
+            output_dir = self.args.output_dir
+        
+        # Create the output directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
+        
+        # Save training arguments
         torch.save(self.args, os.path.join(output_dir, TRAINING_ARGS_NAME))
         
         # Access the original model
         model = self.model.module if hasattr(self.model, 'module') else self.model
         
+        # Save LLM parameters
         saved_params_LLM = get_peft_model_state_dict(model.LLM)
         torch.save(saved_params_LLM, os.path.join(output_dir, "adapter_model.bin"))
+        
+        # Save other parameters
         saved_params_other = model.feature_proj.state_dict()
         torch.save(saved_params_other, os.path.join(output_dir, "other_params.bin"))
+        
+        # Save configuration
         config = model.LLM.peft_config
         selected_adapters = list(config.keys())
-        print(selected_adapters)
         config[selected_adapters[0]].save_pretrained(output_dir, auto_mapping_dict=None)
 
     def create_optimizer(self):
@@ -104,5 +115,5 @@ class MultiModalTrainer(Trainer):
                 self.model,
                 device_ids=[self.args.local_rank],
                 output_device=self.args.local_rank,
-                find_unused_parameters=True  # Add this line
+                find_unused_parameters=True
             )
