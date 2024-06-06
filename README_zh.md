@@ -31,6 +31,8 @@ For the English version of the README, please refer to [README.md](README.md).
 
 请按照[配置文件](https://github.com/xinyanghuang7/Basic-Vision-Language-Model/blob/main/dataprocess/config.yaml)中的路径存放数据集。当然，路径可以自定义。
 
+请注意，此路径需要与[data/](https://github.com/xinyanghuang7/Basic-Vision-Language-Model/blob/main/train.py#L29)保持一致，以便模型进行读取。
+
 数据下载完毕后，使用 `process_image.py` 进行预处理。
 
 ### 安装运行环境
@@ -53,7 +55,7 @@ sh train.sh
 
 通过上述步骤，您可以启动训练过程并进行多模态模型的训练。
 
-模型权重将会保存在[data/](https://github.com/xinyanghuang7/Basic-Vision-Language-Model/blob/main/train.py#L29)中，同样，这个路径可以进行自定义。
+模型权重将会保存在`--output_dir`中，同样，这个路径可以进行自定义。
 
 ## 测试模型
 
