@@ -1,6 +1,6 @@
 # Building Your Own Multimodal Large Model from Scratch
 
-For the Chinese version of the README, please refer to [中文文档.md](README_CN.md).
+For the Chinese version of the README, please refer to [中文文档](README_zh.md).
 
 ## Code Explanation 💻
 
@@ -23,7 +23,7 @@ If you wish to modify the model architecture, please change [this part](https://
 
 ## How to Start Training
 
-### Download the Relevant Data:
+### Download the Relevant Data
 
 | AI Challenger | COCO | complex_reasoning_77k.json | detail_23k.json |
 | --- | --- | --- | --- |
@@ -45,17 +45,29 @@ pip install -r requirements.txt
 
 The model training adopts a strategy where the image model is frozen, and the LLM is trained using the Lora method to reduce training pressure. The parameters to be trained include the visual feature mapping layer and the Lora parameters in the LLM. Since the mapping layer consists of untrained initialization parameters, a larger learning rate is set for the mapping layer compared to the Lora part to balance the optimization speed of the model parameters.
 
-Run `train.sh` in the root directory, and you can configure the relevant parameters for experimentation:
+Run `train.sh` in the root directory, and you can configure the relevant parameters for experimentation.
 
 ```shell
 sh train.sh
 ```
 
-By following the above steps, you can start the training process and train the multimodal model. If you have any questions or need further assistance, please feel free to contact us.
+By following the above steps, you can start the training process and train the multimodal model.
+
+The model weights will be saved in the [data/](https://github.com/xinyanghuang7/Basic-Vision-Language-Model/blob/main/train.py#L29) directory. This path can also be customized.
+
+## Testing the Model
+
+Run `test.sh` in the root directory, and you can configure the relevant parameters for experimentation.
+
+```shell
+sh test.sh
+```
+
+The code will read images from the folder and perform Q&A.
 
 ## References
 
-Thanks to the following projects for their work 🙌:
+Thanks to the following projects for their great work 🙌:
 
 - https://github.com/WatchTower-Liu/VLM-learning/tree/main
 - https://github.com/QwenLM/Qwen
