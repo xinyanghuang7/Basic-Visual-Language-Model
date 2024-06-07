@@ -118,6 +118,14 @@ sh test.sh
 
 代码会读取文件夹下的图片进行问答。
 
+#### 预训练模型
+
+如果你只希望进行测试，可以使用以下预训练模型文件进行加载，将其放入`--model_weights`。
+
+| 模型1 | 模型2 |
+| --- | --- |
+| [预训练7000轮](https://huggingface.co/xinyanghuang/Basic-Visual-Language-Model/tree/main/checkpoint-7000/checkpoint-7000) | TODO |
+
 #### `test.sh` 脚本解析
 
 ```sh
