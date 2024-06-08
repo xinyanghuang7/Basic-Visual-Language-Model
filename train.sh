@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node=1 train.py \
+CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node=1 --master_port=25642 train.py \
     --lora_rank 128 \
     --lora_dropout 0.10 \
     --per_device_train_batch_size 4 \
