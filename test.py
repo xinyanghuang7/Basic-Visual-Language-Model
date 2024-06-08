@@ -15,7 +15,7 @@ def image_process(image):
     tran = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean, std),
-    transforms.Resize([224, 224])
+    transforms.Resize([384, 384])
     ])
 
     return tran(image)
