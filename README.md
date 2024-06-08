@@ -118,14 +118,6 @@ sh test.sh
 
 The code will read images from the folder for Q&A.
 
-#### Pre-trained Models
-
-If you only wish to test, you can use the following pre-trained model files for loading, placing them in the path specified by `--model_weights`.
-
-| Model 1 | Model 2 |
-| --- | --- |
-| [Pre-trained 7000 steps](https://huggingface.co/xinyanghuang/Basic-Visual-Language-Model/tree/main/checkpoint-7000/checkpoint-7000) | TODO |
-
 #### `test.sh` Script Analysis
 
 ```sh
