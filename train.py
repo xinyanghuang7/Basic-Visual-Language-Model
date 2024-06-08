@@ -14,7 +14,6 @@ from transformers import HfArgumentParser, AutoTokenizer
 from dataclasses import dataclass, field
 
 from qwen.modeling_qwen import QWenLMHeadModel
-from qwen.qwen_generation_utils import make_context
 
 from einops import rearrange
 
@@ -39,6 +38,8 @@ def train():
     ).parse_args_into_dataclasses()
 
     base_language_model = "Qwen/Qwen-7B-Chat"
+    # base_language_model = "openbmb/MiniCPM-2B-history"
+    
     # base_value_model = "openai/clip-vit-large-patch14"
     base_value_model = "google/siglip-so400m-patch14-384"
 

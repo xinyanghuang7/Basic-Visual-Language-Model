@@ -12,7 +12,7 @@ from peft import get_peft_model, LoraConfig, TaskType, PeftModel
 # from visual.CLIP_VIT import visualModel
 from visual.SIGLIP_VIT import visualModel
 from qwen.Mqwen import MQWenLMHeadModel
-
+from minicpm.Mminicpm import MMiniCPMLMHeadModel
 
 @dataclass
 class LanguageConfig():
@@ -54,7 +54,8 @@ class MMultiModal(nn.Module):
         image_feature_length = MMconfig.image_context_length * MMconfig.image_feature_hidden_size
 
         self.LLM = MQWenLMHeadModel.from_pretrained(Lconfig.model_path, asdict(MMconfig), torch_dtype = Lconfig.torch_dtype, trust_remote_code = Lconfig.trust_remote_code)
-
+        # self.LLM = MMiniCPMLMHeadModel.from_pretrained(Lconfig.model_path, asdict(MMconfig), torch_dtype = Lconfig.torch_dtype, trust_remote_code = Lconfig.trust_remote_code)
+        
         if train:
             self.LLM.gradient_checkpointing_enable() 
             self.LLM.enable_input_require_grads()
