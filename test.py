@@ -1,6 +1,6 @@
 import argparse
 import torch
-from transformers import AutoTokenizer, ChineseCLIPProcessor
+from transformers import AutoTokenizer, SiglipProcessor
 from torchvision import transforms
 from PIL import Image
 
@@ -32,9 +32,11 @@ def main(args):
 
     prompt = args.prompt
 
-    image = Image.open(args.image_path)
-    image = image.convert("RGB")
-    image_pt = image_process(image).unsqueeze(0).cuda().to(torch.bfloat16)
+    image_processor = SiglipProcessor.from_pretrained(args.base_value_model)
+    image = Image.open(args.image_path).convert("RGB")
+    image_pt = image_processor(images=image, return_tensors="pt")["pixel_values"].cuda().to(torch.bfloat16)
+    # image_pt = image_process(image).unsqueeze(0).cuda().to(torch.bfloat16)
+    # print(image_pt1.shape, image_pt.shape)
     messages = [{"role": "system", "content": "你是一位图像理解助手。"}, {"role": "user", "content": "用中文回答："+prompt}]
     raw_text, context_tokens = make_context(
             tokenizer,

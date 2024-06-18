@@ -131,24 +131,3 @@ class ImageCaptionDataset(Dataset):
     def __len__(self):
         return len(self.data_list)
 
-# Example usage
-if __name__ == "__main__":
-    from transformers import AutoTokenizer
-
-    class Vconfig:
-        model_path = "openai/clip-vit-base-patch32"
-
-    tokenizer = AutoTokenizer.from_pretrained("gpt2")
-    dataset = ImageCaptionDataset(
-        tokenizer=tokenizer,
-        image_map_file="path/to/image_map.json",
-        captions_file="path/to/captions.json",
-        Vconfig=Vconfig,
-        return_caption_num=1,
-        max_train_data_item=1000
-    )
-
-    dataloader = DataLoader(dataset, batch_size=4, collate_fn=lambda x: data_collate(x, tokenizer, black_token_length=10))
-
-    for batch in dataloader:
-        print(batch)
