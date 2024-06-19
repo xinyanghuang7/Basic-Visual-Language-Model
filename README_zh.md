@@ -118,6 +118,15 @@ sh test.sh
 
 代码会读取文件夹下的图片进行问答。
 
+#### 加载预训练模型（可选）
+如果想直接测试模型效果，所提供的预训练权重如下：
+
+| SIGLIP_Qwen_epoch19000 | SIGLIP_Qwen_epoch36000 |
+| :---: | :---: |
+|[Model1](https://huggingface.co/xinyanghuang/Basic-Visual-Language-Model/tree/main/checkpoint-19000)|[Model2](https://huggingface.co/xinyanghuang/Basic-Visual-Language-Model/tree/main/checkpoint-36000)|
+
+可以直接下载相关文件后进行测试。
+
 #### `test.sh` 脚本解析
 
 ```sh
