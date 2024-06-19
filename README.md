@@ -124,6 +124,15 @@ The code will read images from the folder for Q&A.
 python test.py --base_language_model Qwen/Qwen-7B-Chat --base_value_model openai/clip-vit-large-patch14 --model_weights ./weights/train_V1_5/checkpoint-10000/ --image_path ./test_img/1.jpg --prompt "Describe the colors appearing in the image<|extra_0|>"
 ```
 
+#### Load pre-trained model (optional)
+If you want to test the model directly, the pre-trained weights provided are as follows:
+
+| SIGLIP_Qwen_epoch19000 | SIGLIP_Qwen_epoch36000 |
+| :---: | :---: |
+|[Model1](https://huggingface.co/xinyanghuang/Basic-Visual-Language-Model/tree/main/checkpoint-19000)|[Model2](https://huggingface.co/xinyanghuang/Basic-Visual-Language-Model/tree/main/checkpoint-36000)|
+
+You can directly download the relevant files and test them.
+
 #### Parameters Passed to `test.py`
 
 1. **--base_language_model Qwen/Qwen-7B-Chat**: Specify the path to the base language model, here using `Qwen/Qwen-7B-Chat`.
