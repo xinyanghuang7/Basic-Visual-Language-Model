@@ -1,3 +1,5 @@
+
+
 # Building Your Own Multimodal Large Model from Scratch
 
 For the Chinese version of the README, please refer to [中文文档](README_zh.md).
@@ -33,7 +35,7 @@ Please store the datasets according to the paths in the [configuration file](htt
 
 Please note that this path needs to be consistent with [data/](https://github.com/xinyanghuang7/Basic-Vision-Language-Model/blob/main/train.py#L29) for the model to read.
 
-After downloading the data, use `process_image.py` for preprocessing.
+After downloading the data, use `process_image.py` in the `dataprocess` directory for preprocessing.
 
 ### Install the Runtime Environment
 
